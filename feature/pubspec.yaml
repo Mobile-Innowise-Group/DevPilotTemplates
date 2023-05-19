@@ -11,13 +11,21 @@ dependencies:
   flutter:
     sdk: flutter
   core:
-    path: ../../core
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: core
   domain:
-    path: ../../domain
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: domain
   core_ui:
-    path: ../../core_ui
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: core_ui
   navigation:
-    path: ../../navigation
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: navigation
 
 
 dev_dependencies:
