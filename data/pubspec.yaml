@@ -12,11 +12,11 @@ dependencies:
     sdk: flutter
   core:
     git:
-      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      url: https://github.com/Mobile-Innowise-Group/DevPilotTemplates.git
       path: core
   domain:
     git:
-      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      url: https://github.com/Mobile-Innowise-Group/DevPilotTemplates.git
       path: domain
 
 
