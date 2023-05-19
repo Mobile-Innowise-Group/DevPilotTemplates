@@ -11,9 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
   core:
-    path: ../core
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: core
   domain:
-    path: ../domain
+    git:
+      url: https://github.com/RomanPreis/DevPilotTemplates.git
+      path: domain
 
 
 dev_dependencies:
@@ -22,6 +26,3 @@ dev_dependencies:
   flutter_lints: ^2.0.1
 
   build_runner: '>2.3.0 <4.0.0'
-
-
-flutter:
