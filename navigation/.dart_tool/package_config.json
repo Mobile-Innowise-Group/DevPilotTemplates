@@ -111,7 +111,7 @@
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/characters-1.2.1",
+      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -129,9 +129,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/collection-1.17.0",
+      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/collection-1.17.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.18"
     },
     {
       "name": "convert",
@@ -215,7 +215,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/kemal/Documents/development/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_bloc",
@@ -291,9 +291,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/js-0.6.5",
+      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
-      "languageVersion": "2.16"
+      "languageVersion": "2.19"
     },
     {
       "name": "json_annotation",
@@ -333,7 +333,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/meta-1.8.0",
+      "rootUri": "file:///Users/kemal/.pub-cache/hosted/pub.dev/meta-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -431,7 +431,7 @@
       "name": "sky_engine",
       "rootUri": "file:///Users/kemal/Documents/development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "source_gen",
@@ -548,7 +548,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-04-26T12:03:16.700315Z",
+  "generated": "2023-05-19T08:11:28.139048Z",
   "generator": "pub",
-  "generatorVersion": "2.19.5"
+  "generatorVersion": "3.0.0"
 }
