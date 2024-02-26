@@ -7,16 +7,19 @@ class ErrorInterceptor extends Interceptor {
 
   @override
   Future<void> onError(
-    DioError err,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) async {
     switch (err.type) {
-      case DioErrorType.cancel:
-      case DioErrorType.connectionTimeout:
-      case DioErrorType.sendTimeout:
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.cancel:
         break;
-      case DioErrorType.badResponse:
+      case DioExceptionType.connectionTimeout:
+        break;
+      case DioExceptionType.receiveTimeout:
+        break;
+      case DioExceptionType.sendTimeout:
+        break;
+      case DioExceptionType.badResponse:
         switch (err.response?.statusCode) {
           case 400:
             break;
@@ -26,13 +29,13 @@ class ErrorInterceptor extends Interceptor {
             break;
         }
         break;
-      case DioErrorType.connectionError:
+      case DioExceptionType.connectionError:
         // TODO: Handle this case.
         break;
-      case DioErrorType.badCertificate:
+      case DioExceptionType.badCertificate:
         // TODO: Handle this case.
         break;
-      case DioErrorType.unknown:
+      case DioExceptionType.unknown:
         // TODO: Handle this case.
         break;
     }
@@ -46,7 +49,7 @@ class ErrorInterceptor extends Interceptor {
   }
 
   Future<void> handle401Error(
-    DioError error,
+    DioException error,
     ErrorInterceptorHandler handler,
   ) async {
     return handler.next(error);
