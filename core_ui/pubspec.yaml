@@ -12,12 +12,8 @@ dependencies:
     sdk: flutter
   core:
     path: ../core
-  domain:
-    path: ../domain
-  navigation:
-    path: ../navigation
-  flutter_svg: ^2.0.9
 
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,5 @@
-
 import 'package:dio/dio.dart';
 import 'package:domain/domain.dart';
-
 
 Future<dynamic> safeRequest(Future<dynamic> Function() request) async {
   try {
