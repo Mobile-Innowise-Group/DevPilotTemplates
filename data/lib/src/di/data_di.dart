@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 
-import '../errors/error_handler.dart';
-import '../providers/api_provider.dart';
+import '../../data.dart';
 
 abstract class DataDI {
   static void initDependencies(GetIt locator) {
