@@ -1,4 +1,6 @@
-part of core_ui;
+import 'package:flutter/material.dart';
+
+import '../../core_ui.dart';
 
 const LightColors _appColors = LightColors();
 

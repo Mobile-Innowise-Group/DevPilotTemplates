@@ -1,4 +1,1 @@
-part of core_ui;
-
-class AppImages {
-}
+class AppImages {}

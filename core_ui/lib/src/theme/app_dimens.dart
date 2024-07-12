@@ -1,5 +1,3 @@
-part of core_ui;
-
 class AppDimens {
   static const double BORDER_RADIUS_0 = 0.0;
   static const double BORDER_RADIUS_4 = 4.0;
