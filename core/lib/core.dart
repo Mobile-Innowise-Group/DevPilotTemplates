@@ -1,7 +1,7 @@
 library core;
 
-
 export 'package:dio/dio.dart';
+export 'package:get_it/get_it.dart';
 
 export 'config/app_config.dart';
 export 'config/network/dio_config.dart';

@@ -1,38 +1,34 @@
-import 'package:core/config/app_config.dart';
-import 'package:core/config/network/dio_config.dart';
-
-import 'package:core/di/app_di.dart';
+import 'package:core/core.dart';
 
 import '../errors/error_handler.dart';
 import '../providers/api_provider.dart';
 
-final DataDI dataDI = DataDI();
-
-class DataDI {
-  void initDependencies() {
-    _initDio();
-    _initApi();
+abstract class DataDI {
+  static void initDependencies(GetIt locator) {
+    _initApi(locator);
+    _initProviders(locator);
+    _initRepositories(locator);
   }
 
-  void _initDio() {
-    appLocator.registerLazySingleton<DioConfig>(
+  static void _initApi(GetIt locator) {
+    locator.registerLazySingleton<DioConfig>(
       () => DioConfig(
-        appConfig: appLocator<AppConfig>(),
+        appConfig: locator<AppConfig>(),
       ),
     );
-  }
 
-
-  void _initApi() {
-    appLocator.registerLazySingleton<ErrorHandler>(
+    locator.registerLazySingleton<ErrorHandler>(
       ErrorHandler.new,
     );
 
-    appLocator.registerLazySingleton<ApiProvider>(
+    locator.registerLazySingleton<ApiProvider>(
       () => ApiProvider(
-        appLocator<DioConfig>().dio,
+        locator<DioConfig>().dio,
       ),
     );
   }
 
+  static void _initProviders(GetIt locator) {}
+
+  static void _initRepositories(GetIt locator) {}
 }
