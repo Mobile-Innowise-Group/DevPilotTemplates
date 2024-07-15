@@ -15,7 +15,6 @@ dependencies:
   domain:
     path: ../domain
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

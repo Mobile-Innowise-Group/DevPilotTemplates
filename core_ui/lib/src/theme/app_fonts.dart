@@ -1,4 +1,4 @@
-part of core_ui;
+import 'package:flutter/material.dart';
 
 class AppFonts {
   static TextStyle normal13 = const TextStyle(

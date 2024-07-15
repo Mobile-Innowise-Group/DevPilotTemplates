@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 part 'api_provider.g.dart';
 
 abstract class ApiProvider {
