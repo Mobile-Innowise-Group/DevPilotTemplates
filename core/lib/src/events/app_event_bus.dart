@@ -10,7 +10,7 @@ abstract class AppEventNotifier {
 
 abstract class AppEventObserver {
   StreamSubscription<T> observe<T extends AppEvent>(
-    void Function(T event) handler, [
+    void Function(T event) handler, {
     bool exactType = false,
-  ]);
+  });
 }

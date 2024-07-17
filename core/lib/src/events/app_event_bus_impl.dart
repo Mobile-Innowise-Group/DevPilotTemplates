@@ -7,11 +7,11 @@ class AppEvenBusImpl implements AppEventNotifier, AppEventObserver {
 
   @override
   StreamSubscription<T> observe<T extends AppEvent>(
-    void Function(T event) handler, [
+    void Function(T event) handler, {
     bool exactType = false,
-  ]) {
+  }) {
     return _controller.stream
-        .where((AppEvent event) => (exactType && event.runtimeType == T) || event is T)
+        .where((AppEvent event) => event.runtimeType == T || (!exactType && event is T))
         .cast<T>()
         .listen(handler);
   }
