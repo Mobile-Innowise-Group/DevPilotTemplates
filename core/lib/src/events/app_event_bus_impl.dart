@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:core/core.dart';
+import '../../core.dart';
 
 class AppEvenBusImpl implements AppEventNotifier, AppEventObserver {
   final StreamController<AppEvent> _controller = StreamController<AppEvent>.broadcast();
