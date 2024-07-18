@@ -11,16 +11,16 @@ abstract class AppDI {
       AppConfig.fromFlavor(flavor),
     );
 
-    locator.registerLazySingleton<AppEvenBusImpl>(
-      () => AppEvenBusImpl(),
+    locator.registerLazySingleton<AppEvenBus>(
+      () => AppEvenBus(),
     );
 
     locator.registerLazySingleton<AppEventNotifier>(
-      () => appLocator<AppEvenBusImpl>(),
+      () => appLocator<AppEvenBus>(),
     );
 
     locator.registerLazySingleton<AppEventObserver>(
-      () => appLocator<AppEvenBusImpl>(),
+      () => appLocator<AppEvenBus>(),
     );
   }
 }
