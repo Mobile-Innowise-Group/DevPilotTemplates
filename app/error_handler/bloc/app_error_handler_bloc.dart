@@ -8,9 +8,7 @@ part 'app_error_handler_state.dart';
 
 class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerState> {
   final AppEventObserver _appEventObserver;
-
-  final List<StreamSubscription<AppEvent>> _subscriptions =
-      List<StreamSubscription<AppEvent>>.empty(growable: true);
+  final List<StreamSubscription<AppEvent>> _subscriptions = <StreamSubscription<AppEvent>>[];
 
   AppErrorHandlerBloc({
     required AppEventObserver appEventObserver,
@@ -26,7 +24,7 @@ class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerStat
     );
 
     _subscriptions.add(
-      _domainEventSubscription = _appEventObserver.observe<DomainEvent>(
+      _appEventObserver.observe<DomainEvent>(
         (DomainEvent event) => add(DomainEventReceived(event)),
       ),
     );
