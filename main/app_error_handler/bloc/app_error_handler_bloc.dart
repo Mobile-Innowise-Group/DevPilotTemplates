@@ -9,8 +9,8 @@ part 'app_error_handler_state.dart';
 class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerState> {
   final AppEventObserver _appEventObserver;
 
-  late final StreamSubscription<CoreEvent> _coreEventSubscription;
-  late final StreamSubscription<DomainEvent> _domainEventSubscription;
+  final List<StreamSubscription<AppEvent>> _subscriptions =
+      List<StreamSubscription<AppEvent>>.empty(growable: true);
 
   AppErrorHandlerBloc({
     required AppEventObserver appEventObserver,
@@ -19,12 +19,16 @@ class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerStat
     on<CoreEventReceived>(_onCoreEventReceived);
     on<DomainEventReceived>(_onDomainEventReceived);
 
-    _coreEventSubscription = _appEventObserver.observe<CoreEvent>(
-      (CoreEvent event) => add(CoreEventReceived(event)),
+    _subscriptions.add(
+      _appEventObserver.observe<CoreEvent>(
+        (CoreEvent event) => add(CoreEventReceived(event)),
+      ),
     );
 
-    _domainEventSubscription = _appEventObserver.observe<DomainEvent>(
-      (DomainEvent event) => add(DomainEventReceived(event)),
+    _subscriptions.add(
+      _domainEventSubscription = _appEventObserver.observe<DomainEvent>(
+        (DomainEvent event) => add(DomainEventReceived(event)),
+      ),
     );
   }
 
@@ -35,6 +39,7 @@ class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerStat
     switch (event.data) {
       case InternetConnectionLostEvent():
       // TODO: Handle InternetConnectionLostEvent
+      default:
     }
   }
 
@@ -45,13 +50,16 @@ class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerStat
     switch (event.data) {
       case UnauthorizedEvent():
       // TODO: Handle UnauthorizedEvent
+      default:
     }
   }
 
   @override
   Future<void> close() async {
-    await _coreEventSubscription.cancel();
-    await _domainEventSubscription.cancel();
+    for (final subscription in _subscriptions) {
+      await subscription.cancel();
+    }
+
     await super.close();
   }
 }

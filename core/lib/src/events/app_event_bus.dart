@@ -2,16 +2,18 @@ import 'dart:async';
 
 import '../../core.dart';
 
-class AppEvenBus implements AppEventNotifier, AppEventObserver {
+class AppEventBus implements AppEventNotifier, AppEventObserver {
   final StreamController<AppEvent> _controller = StreamController<AppEvent>.broadcast();
 
   @override
   StreamSubscription<T> observe<T extends AppEvent>(
     void Function(T event) handler, {
-    bool exactType = false,
+    bool observeEventsOfExactType = false,
   }) {
     return _controller.stream
-        .where((AppEvent event) => event.runtimeType == T || (!exactType && event is T))
+        .where(
+          (AppEvent event) => event.runtimeType == T || (!observeEventsOfExactType && event is T),
+        )
         .cast<T>()
         .listen(handler);
   }

@@ -1,6 +1,6 @@
 part of 'app_error_handler_bloc.dart';
 
-abstract class AppErrorHandlerEvent {
+sealed class AppErrorHandlerEvent {
   const AppErrorHandlerEvent();
 }
 

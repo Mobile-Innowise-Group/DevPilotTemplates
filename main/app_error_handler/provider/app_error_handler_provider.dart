@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../bloc/app_error_handler_bloc.dart';
 
-class AppErrorHandlerWrapper extends StatelessWidget {
+class AppErrorHandlerProvider extends StatelessWidget {
   final Widget child;
 
-  const AppErrorHandlerWrapper({
+  const AppErrorHandlerProvider({
     super.key,
     required this.child,
   });
