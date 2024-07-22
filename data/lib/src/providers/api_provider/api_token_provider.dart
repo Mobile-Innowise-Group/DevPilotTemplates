@@ -1,4 +1,4 @@
-import 'package:data/data.dart';
+import '../../../data.dart';
 
 class ApiTokenProvider {
   final LocalDataProvider _localDataProvider;
