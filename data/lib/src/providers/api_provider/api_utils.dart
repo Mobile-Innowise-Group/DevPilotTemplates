@@ -11,7 +11,7 @@ enum HttpMethod {
   const HttpMethod(this.key);
 }
 
-typedef Parser<T> = T Function(Map<String, dynamic>);
+typedef ApiResponseBodyParser<T> = T Function(Map<String, dynamic>);
 
 class ApiQuery {
   final HttpMethod method;
