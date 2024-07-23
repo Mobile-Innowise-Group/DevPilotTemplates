@@ -5,6 +5,10 @@ import 'package:domain/domain.dart';
 
 import '../../../data.dart';
 
+typedef ApiObjectParser<T> = T Function(Map<String, dynamic> data);
+
+typedef ApiRawParser<T> = T Function(dynamic data);
+
 class ApiProvider {
   final Dio _dio;
   final ApiTokenProvider _apiTokenProvider;
@@ -18,65 +22,75 @@ class ApiProvider {
         _apiTokenProvider = apiTokenProvider,
         _errorHandler = errorHandler;
 
-  Future<T> request<T>({
-    required ApiQuery query,
-    required T Function(Map<String, dynamic> data) parser,
+  Future<T> expectObject<T>({
+    required ApiRequest request,
+    required ApiObjectParser<T> parser,
   }) async {
-    return _request(
-      query: query,
-      parser: parser,
-      canRefreshToken: query.useDefaultAuth,
+    final dynamic data = await _request(
+      request: request,
+      canRefreshToken: request.useDefaultAuth,
     );
+
+    return parser(data as Map<String, dynamic>);
   }
 
-  Future<List<T>> listRequest<T>({
-    required ApiQuery query,
-    required T Function(dynamic data) itemParser,
+  Future<List<T>> expectList<T>({
+    required ApiRequest request,
+    required ApiObjectParser<T> itemParser,
     String listResponseField = ApiConstants.listResponseField,
   }) async {
-    return _request(
-      query: query,
-      parser: (Map<String, dynamic> data) {
-        return data[listResponseField].map(itemParser).cast<T>().toList();
-      },
-      canRefreshToken: query.useDefaultAuth,
+    final dynamic data = await _request(
+      request: request,
+      canRefreshToken: request.useDefaultAuth,
     );
+
+    final List<dynamic> items = data is List ? data : data[listResponseField];
+    return items.map((dynamic e) => itemParser(e as Map<String, dynamic>)).cast<T>().toList();
   }
 
-  Future<void> voidRequest(ApiQuery query) async {
+  Future<void> expectVoid(ApiRequest request) async {
     await _request(
-      query: query,
-      parser: (_) {},
-      canRefreshToken: query.useDefaultAuth,
+      request: request,
+      canRefreshToken: request.useDefaultAuth,
     );
   }
 
-  Future<T> _request<T>({
-    required ApiQuery query,
-    required T Function(Map<String, dynamic> data) parser,
+  Future<T> expectRaw<T>({
+    required ApiRequest request,
+    required ApiRawParser<T> parser,
+  }) async {
+    final dynamic data = await _request(
+      request: request,
+      canRefreshToken: request.useDefaultAuth,
+    );
+
+    return parser(data);
+  }
+
+  Future<dynamic> _request({
+    required ApiRequest request,
     required bool canRefreshToken,
   }) async {
     try {
       final Response<dynamic> response = await _dio.request(
-        query.url,
-        data: query.body,
+        request.url,
+        data: request.body,
         options: Options(
-          method: query.method.key,
-          headers: await _prepareRequestHeaders(query),
+          method: request.method.key,
+          headers: await _prepareRequestHeaders(request),
         ),
       );
 
-      return parser(response.data);
+      return response.data;
     } on DioException catch (e) {
       if (canRefreshToken && e.response?.statusCode == HttpStatus.unauthorized) {
         await _refreshTokens();
         return _request(
-          query: query,
-          parser: parser,
+          request: request,
           canRefreshToken: false,
         );
       } else {
-        if (query.useErrorHandler) {
+        if (request.useErrorHandler) {
           await _errorHandler.handleError(e);
         } else {
           throw AppException(e.message ?? e.toString());
@@ -89,18 +103,20 @@ class ApiProvider {
     }
   }
 
-  Future<Map<String, dynamic>?> _prepareRequestHeaders(ApiQuery query) async {
-    if (query.useDefaultAuth) {
-      final Map<String, dynamic> headers = query.headers ?? <String, dynamic>{};
+  Future<Map<String, dynamic>?> _prepareRequestHeaders(ApiRequest request) async {
+    if (request.useDefaultAuth) {
+      final Map<String, dynamic> headers = request.headers ?? <String, dynamic>{};
       final String? token = await _apiTokenProvider.readAccessToken();
 
       if (token != null) {
         // TODO: Set token properly
-        headers['Authorization'] = token;
+        headers['Authorization'] = 'Bearer $token';
       }
+
+      return headers;
     }
 
-    return query.headers;
+    return request.headers;
   }
 
   Future<void> _refreshTokens() async {

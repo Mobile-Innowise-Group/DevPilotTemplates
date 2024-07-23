@@ -11,7 +11,7 @@ enum HttpMethod {
   const HttpMethod(this.key);
 }
 
-class ApiQuery {
+class ApiRequest {
   final HttpMethod method;
   final String url;
   final Map<String, dynamic>? params;
@@ -20,7 +20,7 @@ class ApiQuery {
   final bool useDefaultAuth;
   final bool useErrorHandler;
 
-  ApiQuery({
+  ApiRequest({
     required this.method,
     required this.url,
     this.body = const <String, dynamic>{},

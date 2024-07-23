@@ -10,8 +10,6 @@ class ErrorInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    return handler.resolve(
-      err.response ?? Response<dynamic>(requestOptions: err.requestOptions),
-    );
+    return handler.next(err);
   }
 }

@@ -1,3 +1,3 @@
 abstract final class ApiConstants {
-  static const String listResponseField = 'result';
+  static const String listResponseField = 'items';
 }
