@@ -1,6 +1,4 @@
-import 'package:get_it/get_it.dart';
-
-import '../config/app_config.dart';
+import 'package:core/core.dart';
 
 final GetIt appLocator = GetIt.instance;
 
@@ -11,6 +9,18 @@ abstract class AppDI {
   static void initDependencies(GetIt locator, Flavor flavor) {
     locator.registerSingleton<AppConfig>(
       AppConfig.fromFlavor(flavor),
+    );
+
+    locator.registerLazySingleton<AppEventBus>(
+      () => AppEventBus(),
+    );
+
+    locator.registerLazySingleton<AppEventNotifier>(
+      () => appLocator<AppEventBus>(),
+    );
+
+    locator.registerLazySingleton<AppEventObserver>(
+      () => appLocator<AppEventBus>(),
     );
   }
 }
