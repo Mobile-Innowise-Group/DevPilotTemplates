@@ -1,12 +1,10 @@
- class AppException implements Exception {
+class AppException implements Exception {
   final String message;
 
-  AppException(
-    this.message,
-  );
+  const AppException(this.message);
+
+  const AppException.unknown() : message = 'Unknown Error!';
 
   @override
   String toString() => message;
-
-  factory AppException.unknown() => AppException('Unknown Error!');
 }
