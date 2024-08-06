@@ -22,12 +22,12 @@ allDirs "runGet"
 
 # generate localization keys
 cd "core" || exit
-flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated
+dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated -S resources/lang
 
 # generate data layer files
 cd "../data" || exit
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 
 # generate auto route files
 cd "../navigation" || exit
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
