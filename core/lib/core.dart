@@ -10,6 +10,6 @@ export 'src/config/network/dio_config.dart';
 export 'src/constants/app_constants.dart';
 export 'src/di/app_di.dart';
 export 'src/events/events.dart';
-export 'src/localization/app_localization.dart';
+export 'src/localization/localization.dart';
 export 'src/services/services.dart';
 export 'src/utils/extensions.dart';
