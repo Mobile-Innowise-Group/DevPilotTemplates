@@ -1,6 +1,7 @@
-import 'package:core/core.dart';
 import 'package:http/http.dart';
 import 'package:observe_internet_connectivity/observe_internet_connectivity.dart';
+
+import '../../core.dart';
 
 class AppInternetObservingStrategy extends InternetObservingStrategy {
   @override

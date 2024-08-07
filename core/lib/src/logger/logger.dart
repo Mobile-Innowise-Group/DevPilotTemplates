@@ -13,7 +13,7 @@ class AppLogger {
   AppLogger._internal();
   factory AppLogger() => _singleton;
 
-  /// Log a message at level [Level.verbose].
+  /// Log a message at level [Level.trace].
   void verbose(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     _log.t(message, error: error, stackTrace: stackTrace);
   }
@@ -38,8 +38,8 @@ class AppLogger {
     _log.e(message, error: error, stackTrace: stackTrace);
   }
 
-  /// Log a message at level [Level.wtf].
+  /// Log a message at level [Level.fatal].
   void wtf(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _log.wtf(message, error: error, stackTrace: stackTrace);
+    _log.f(message, error: error, stackTrace: stackTrace);
   }
 }
