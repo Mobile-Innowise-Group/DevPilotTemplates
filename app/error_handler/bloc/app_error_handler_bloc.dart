@@ -54,7 +54,7 @@ class AppErrorHandlerBloc extends Bloc<AppErrorHandlerEvent, AppErrorHandlerStat
 
   @override
   Future<void> close() async {
-    for (final subscription in _subscriptions) {
+    for (final StreamSubscription<AppEvent> subscription in _subscriptions) {
       await subscription.cancel();
     }
 
