@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+import '../../core.dart';
 
 final GetIt appLocator = GetIt.instance;
 
@@ -12,15 +12,15 @@ abstract class AppDI {
     );
 
     locator.registerLazySingleton<AppEventBus>(
-      () => AppEventBus(),
+      AppEventBus.new,
     );
 
     locator.registerLazySingleton<AppEventNotifier>(
-      () => appLocator<AppEventBus>(),
+      appLocator,
     );
 
     locator.registerLazySingleton<AppEventObserver>(
-      () => appLocator<AppEventBus>(),
+      appLocator,
     );
   }
 }
