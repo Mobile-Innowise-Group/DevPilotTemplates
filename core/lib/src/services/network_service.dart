@@ -1,5 +1,6 @@
-import 'package:core/src/services/app_internet_observing_strategy.dart';
 import 'package:observe_internet_connectivity/observe_internet_connectivity.dart';
+
+import 'app_internet_observing_strategy.dart';
 
 abstract class NetworkService {
   static final InternetConnectivity _instance = InternetConnectivity(
