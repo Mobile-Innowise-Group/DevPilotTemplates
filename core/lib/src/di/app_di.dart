@@ -16,11 +16,11 @@ abstract class AppDI {
     );
 
     locator.registerLazySingleton<AppEventNotifier>(
-      appLocator,
+      appLocator<AppEventBus>,
     );
 
     locator.registerLazySingleton<AppEventObserver>(
-      appLocator,
+      appLocator<AppEventBus>,
     );
   }
 }
