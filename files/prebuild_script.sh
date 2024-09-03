@@ -1,3 +1,4 @@
+#!/bin/bash
 # run function in all dirs
 # expects a function name
 allDirs() {
@@ -27,6 +28,10 @@ dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/loc
 # generate data layer files
 cd "../data" || exit
 dart run build_runner build --delete-conflicting-outputs
+
+# generate auto route modules
+cd "../features" || exit
+find . -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "$0" && echo "$0" && dart run build_runner build --delete-conflicting-outputs' {} \;
 
 # generate auto route files
 cd "../navigation" || exit
