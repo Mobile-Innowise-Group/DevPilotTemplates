@@ -42,7 +42,7 @@ dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/loc
 
 # Generate feature layer files
 (
-    cd "feature" || exit
+    cd "features" || exit
     count=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
     find . -mindepth 1 -maxdepth 1 -type d | xargs -n 1 -P "$count" -I {} bash -c '
       cd "{}" &&
