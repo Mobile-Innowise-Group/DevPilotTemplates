@@ -6,7 +6,6 @@ environment:
   flutter: '>=3.0.0 <4.0.0'
 
 dependencies:
-  auto_route: ^7.8.4
   flutter:
     sdk: flutter
 
@@ -14,8 +13,8 @@ dependencies:
     path: ../core
   core_ui:
     path: ../core_ui
-  domain:
-    path: ../domain
+
+  auto_route: ^7.8.4
 
 dev_dependencies:
   flutter_lints: ^3.0.1

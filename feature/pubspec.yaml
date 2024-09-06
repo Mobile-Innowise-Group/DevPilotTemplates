@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   core:
     path: ../../core
   domain:
@@ -19,10 +20,9 @@ dependencies:
   navigation:
     path: ../../navigation
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
 
-flutter:
+  auto_route_generator: ^7.3.2
+  build_runner: ^2.4.8
