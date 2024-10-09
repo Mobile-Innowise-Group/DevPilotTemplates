@@ -20,10 +20,4 @@ class DioConfig {
         ],
       );
   }
-
-  Map<String, String> headers = <String, String>{};
-
-  void setToken(String? token) {
-    headers['authtoken'] = token ?? '';
-  }
 }
