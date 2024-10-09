@@ -42,8 +42,8 @@ class ApiProvider {
       options: options,
     );
 
-    final String dateField = listResultField ?? _listResultField;
-    final List<dynamic> list = data is List ? data : data[dateField];
+    final String dataField = listResultField ?? _listResultField;
+    final List<dynamic> list = data is List ? data : data[dataField];
     return list.map((dynamic e) => parser(e as Map<String, dynamic>)).cast<T>().toList();
   }
 
