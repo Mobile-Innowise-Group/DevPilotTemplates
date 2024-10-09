@@ -1,4 +1,4 @@
-abstract final class AppDimens {
+final class AppDimens {
   static const double borderRadius0 = 0.0;
   static const double borderRadius4 = 4.0;
   static const double borderRadius5 = 5.0;
