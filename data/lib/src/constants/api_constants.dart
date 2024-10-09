@@ -1,3 +1,3 @@
-abstract final class ApiConstants {
+final class ApiConstants {
   static const String listResponseField = 'items';
 }
