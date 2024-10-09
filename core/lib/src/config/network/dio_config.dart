@@ -1,12 +1,7 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
+
 import '../app_config.dart';
 import 'interceptors/dio_log_interceptor.dart';
-
-part 'interceptors/error_interceptor.dart';
-part 'interceptors/request_interceptor.dart';
-part 'interceptors/response_interceptor.dart';
 
 class DioConfig {
   final AppConfig appConfig;
@@ -20,9 +15,6 @@ class DioConfig {
     _dio
       ..options.baseUrl = appConfig.baseUrl
       ..interceptors.addAll(<Interceptor>[
-        RequestInterceptor(_dio, headers),
-        ErrorInterceptor(_dio),
-        ResponseInterceptor(_dio),
         dioLoggerInterceptor,
       ]);
   }
