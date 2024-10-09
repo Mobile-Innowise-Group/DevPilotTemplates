@@ -7,7 +7,7 @@ class AppInternetObservingStrategy extends InternetObservingStrategy {
   @override
   Future<bool> get hasInternetConnection async {
     try {
-      await get(Uri.parse(AppConstants.INTERNET_OBSERVING_URL));
+      await get(Uri.parse(AppConstants.internetObservingUrl));
       return true;
     } catch (_) {
       return false;
@@ -15,8 +15,8 @@ class AppInternetObservingStrategy extends InternetObservingStrategy {
   }
 
   @override
-  Duration? get initialDuration => AppConstants.INTERNET_OBSERVING_INTERVAL;
+  Duration? get initialDuration => AppConstants.internetObservingInterval;
 
   @override
-  Duration get interval => AppConstants.INTERNET_OBSERVING_INTERVAL;
+  Duration get interval => AppConstants.internetObservingInterval;
 }

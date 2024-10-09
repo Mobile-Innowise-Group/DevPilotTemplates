@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 
 import '../../data.dart';
 
-abstract class DataDI {
+abstract final class DataDI {
   static void initDependencies(GetIt locator) {
     _initApi(locator);
     _initProviders(locator);
