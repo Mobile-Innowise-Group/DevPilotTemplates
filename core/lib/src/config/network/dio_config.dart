@@ -5,7 +5,6 @@ import 'interceptors/log_interceptor.dart';
 
 class DioConfig {
   final AppConfig appConfig;
-  static const int timeout = 10 * 1000;
 
   final Dio _dio = Dio();
 
