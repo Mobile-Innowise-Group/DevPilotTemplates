@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../app_config.dart';
-import 'interceptors/dio_log_interceptor.dart';
+import 'interceptors/log_interceptor.dart';
 
 class DioConfig {
   final AppConfig appConfig;
@@ -14,9 +14,11 @@ class DioConfig {
   DioConfig({required this.appConfig}) {
     _dio
       ..options.baseUrl = appConfig.baseUrl
-      ..interceptors.addAll(<Interceptor>[
-        dioLoggerInterceptor,
-      ]);
+      ..interceptors.addAll(
+        <Interceptor>[
+          const AppLogInterceptor(),
+        ],
+      );
   }
 
   Map<String, String> headers = <String, String>{};
