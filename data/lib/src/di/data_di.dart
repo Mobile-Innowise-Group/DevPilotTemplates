@@ -26,17 +26,11 @@ abstract class DataDI {
       LocalDataProvider.new,
     );
 
-    locator.registerLazySingleton<ApiTokenProvider>(
-      () => ApiTokenProvider(
-        localDataProvider: locator<LocalDataProvider>(),
-      ),
-    );
-
     locator.registerLazySingleton<ApiProvider>(
       () => ApiProvider(
         dio: locator<DioConfig>().dio,
         errorHandler: locator<ErrorHandler>(),
-        apiTokenProvider: locator<ApiTokenProvider>(),
+        listResultField: ApiConst.listResultField,
       ),
     );
   }
