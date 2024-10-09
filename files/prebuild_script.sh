@@ -1,3 +1,4 @@
+#!/bin/bash
 # run function in all dirs
 # expects a function name
 allDirs() {
@@ -22,12 +23,18 @@ allDirs "runGet"
 
 # generate localization keys
 cd "core" || exit
-flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated
+dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated -S resources/lang
 
 # generate data layer files
 cd "../data" || exit
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
+
+# generate auto route modules
+if [ -d '../features' ]; then
+  cd "../features"
+  find . -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "$0" && echo "$0" && dart run build_runner build --delete-conflicting-outputs' {} \;
+fi
 
 # generate auto route files
 cd "../navigation" || exit
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs

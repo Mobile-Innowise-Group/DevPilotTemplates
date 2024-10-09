@@ -23,7 +23,7 @@ allDirs
 (
     cd "core" || exit
     echo_styled "Generating localization keys in core" 33
-    dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/localization/generated -S resources
+dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated -S resources/lang
 )
 
 # Generate data layer files
@@ -42,7 +42,7 @@ allDirs
 
 # Generate feature layer files
 (
-    cd "feature" || exit
+    cd "features" || exit
     count=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
     find . -mindepth 1 -maxdepth 1 -type d | xargs -n 1 -P "$count" -I {} bash -c '
       cd "{}" &&

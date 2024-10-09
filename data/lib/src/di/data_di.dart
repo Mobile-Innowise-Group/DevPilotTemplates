@@ -17,7 +17,9 @@ abstract class DataDI {
     );
 
     locator.registerLazySingleton<ErrorHandler>(
-      ErrorHandler.new,
+      () => ErrorHandler(
+        eventNotifier: locator<AppEventNotifier>(),
+      ),
     );
 
     locator.registerLazySingleton<LocalDataProvider>(
