@@ -31,7 +31,7 @@ InputDecorationTheme _getInputDecorationTheme() {
     hintStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
     border: OutlineInputBorder(
       borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_12),
+        Radius.circular(AppDimens.borderRadius12),
       ),
       borderSide: BorderSide(
         color: _appColors.primaryBg,
@@ -39,7 +39,7 @@ InputDecorationTheme _getInputDecorationTheme() {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_12),
+        Radius.circular(AppDimens.borderRadius12),
       ),
       borderSide: BorderSide(
         color: _appColors.primaryBg,
@@ -48,7 +48,7 @@ InputDecorationTheme _getInputDecorationTheme() {
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: const BorderRadius.all(
-        Radius.circular(AppDimens.BORDER_RADIUS_6),
+        Radius.circular(AppDimens.borderRadius6),
       ),
       borderSide: BorderSide(
         color: _appColors.primaryBg,

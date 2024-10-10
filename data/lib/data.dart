@@ -1,5 +1,6 @@
 library data;
 
+export 'src/constants/constants.dart';
 export 'src/di/data_di.dart';
 export 'src/entities/entities.dart';
 export 'src/errors/error_handler.dart';

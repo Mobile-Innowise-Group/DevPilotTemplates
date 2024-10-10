@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 
 import '../../data.dart';
 
-abstract class DataDI {
+final class DataDI {
   static void initDependencies(GetIt locator) {
     _initApi(locator);
     _initProviders(locator);
@@ -22,9 +22,15 @@ abstract class DataDI {
       ),
     );
 
+    locator.registerLazySingleton<LocalDataProvider>(
+      LocalDataProvider.new,
+    );
+
     locator.registerLazySingleton<ApiProvider>(
       () => ApiProvider(
-        locator<DioConfig>().dio,
+        dio: locator<DioConfig>().dio,
+        errorHandler: locator<ErrorHandler>(),
+        listResultField: ApiConstants.listResponseField,
       ),
     );
   }
