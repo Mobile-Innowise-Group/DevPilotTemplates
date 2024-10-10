@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-abstract final class AppLocalization {
+final class AppLocalization {
   static const String langFolderPath = 'packages/core/resources/lang';
 
   static const List<Locale> supportedLocales = <Locale>[

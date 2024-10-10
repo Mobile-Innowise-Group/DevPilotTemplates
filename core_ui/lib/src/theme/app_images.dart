@@ -1,1 +1,1 @@
-class AppImages {}
+final class AppImages {}
