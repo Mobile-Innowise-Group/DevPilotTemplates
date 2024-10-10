@@ -12,28 +12,28 @@ class ErrorHandler {
     final Response<dynamic>? response = error.response;
 
     if (response == null) {
-      throw const AppException('empty response');
+      throw const AppException(message: 'empty response');
     }
 
     if (error.type == DioExceptionType.connectionError) {
       _eventNotifier.notify(const InternetConnectionLostEvent());
-      throw const AppException('no connection');
+      throw const AppException(message: 'no connection');
     }
 
     final int? statusCode = response.statusCode;
     switch (statusCode) {
       case 400:
         {
-          throw AppException(error.response?.data['message'] ?? 'empty message');
+          throw AppException(message: error.response?.data['message'] ?? 'empty message');
         }
       case 401:
         {
           _eventNotifier.notify(const UnauthorizedEvent());
-          throw AppException(error.response?.data['message'] ?? 'no auth');
+          throw AppException(message: error.response?.data['message'] ?? 'no auth');
         }
       case 500:
         {
-          throw AppException(error.response?.data['message'] ?? 'server error');
+          throw AppException(message: error.response?.data['message'] ?? 'server error');
         }
       default:
         {

@@ -1,2 +1,1 @@
-export 'api_provider.dart';
-export 'local_data_provider.dart';
+export 'shared/shared.dart';

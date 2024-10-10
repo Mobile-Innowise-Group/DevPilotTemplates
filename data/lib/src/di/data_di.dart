@@ -22,9 +22,15 @@ final class DataDI {
       ),
     );
 
+    locator.registerLazySingleton<LocalDataProvider>(
+      LocalDataProvider.new,
+    );
+
     locator.registerLazySingleton<ApiProvider>(
       () => ApiProvider(
-        locator<DioConfig>().dio,
+        dio: locator<DioConfig>().dio,
+        errorHandler: locator<ErrorHandler>(),
+        listResultField: ApiConstants.listResponseField,
       ),
     );
   }
