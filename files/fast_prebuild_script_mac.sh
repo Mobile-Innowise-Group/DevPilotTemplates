@@ -50,10 +50,3 @@ dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/loc
       dart run build_runner build --delete-conflicting-outputs
   '
 )
-
-# Generate auto route files
-(
-    cd "navigation" || exit
-    echo_styled "Generating auto route files in navigation" 33
-    dart run build_runner build --delete-conflicting-outputs
-)
