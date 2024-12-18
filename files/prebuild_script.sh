@@ -34,7 +34,3 @@ if [ -d '../features' ]; then
   cd "../features"
   find . -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "$0" && echo "$0" && dart run build_runner build --delete-conflicting-outputs' {} \;
 fi
-
-# generate auto route files
-cd "../navigation" || exit
-dart run build_runner build --delete-conflicting-outputs
