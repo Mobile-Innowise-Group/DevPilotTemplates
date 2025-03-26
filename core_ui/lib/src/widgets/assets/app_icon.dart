@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../core_ui.dart';
+
 class AppIcon extends StatelessWidget {
   final String source;
   final BoxFit fit;
@@ -13,7 +15,7 @@ class AppIcon extends StatelessWidget {
     required this.source,
     this.fit = BoxFit.cover,
     this.color,
-    this.size = 24,
+    this.size = AppDimens.defaultIconSize,
     this.onTap,
   });
 
@@ -30,7 +32,7 @@ class AppIcon extends StatelessWidget {
       onTap: onTap,
       child: SvgPicture.asset(
         source,
-        package: 'core_ui',
+        package: kCoreUiPackageName,
         colorFilter: color != null
             ? ColorFilter.mode(
                 color!,

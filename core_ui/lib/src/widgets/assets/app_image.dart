@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../core_ui.dart';
+
 class AppImage extends StatelessWidget {
   final String source;
   final BoxFit fit;
@@ -24,11 +26,21 @@ class AppImage extends StatelessWidget {
   bool get _isSvg => source.toLowerCase().endsWith('.svg');
 
   ImageProvider get _imageProvider {
-    return _isNetwork ? NetworkImage(source) : AssetImage(source) as ImageProvider;
+    return _isNetwork
+        ? NetworkImage(source)
+        : AssetImage(
+            source,
+            package: kCoreUiPackageName,
+          ) as ImageProvider;
   }
 
   BytesLoader get _svgLoader {
-    return _isNetwork ? SvgNetworkLoader(source) : SvgAssetLoader(source);
+    return _isNetwork
+        ? SvgNetworkLoader(source)
+        : SvgAssetLoader(
+            source,
+            packageName: kCoreUiPackageName,
+          );
   }
 
   @override

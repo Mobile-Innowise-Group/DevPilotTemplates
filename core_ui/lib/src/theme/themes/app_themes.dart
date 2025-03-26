@@ -7,7 +7,7 @@ final class AppThemes {
   static ThemeData light = ThemeData(
     brightness: Brightness.light,
     fontFamily: AppFonts.mulish.fontFamily,
-    extensions: const <ThemeExtension>[
+    extensions: const <ThemeExtension<AppColorsTheme>>[
       LightColorsTheme(),
     ],
   );
@@ -15,7 +15,7 @@ final class AppThemes {
   static ThemeData dark = ThemeData(
     brightness: Brightness.dark,
     fontFamily: AppFonts.mulish.fontFamily,
-    extensions: const <ThemeExtension>[
+    extensions: const <ThemeExtension<AppColorsTheme>>[
       DarkColorsTheme(),
     ],
   );

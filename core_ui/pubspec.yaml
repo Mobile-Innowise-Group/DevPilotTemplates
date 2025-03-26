@@ -26,7 +26,6 @@ flutter:
     - resources/images/
 
   fonts:
-    - family: Inter
+    - family: Mulish
       fonts:
         - asset: resources/fonts/Mulish-Regular.ttf
-          weight: 400
