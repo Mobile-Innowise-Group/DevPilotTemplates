@@ -13,7 +13,7 @@ dependencies:
   core:
     path: ../core
 
-  flutter_svg: ^2.0.9
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +21,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - resources/icons/
+    - resources/images/
+
+  fonts:
+    - family: Mulish
+      fonts:
+        - asset: resources/fonts/Mulish-Regular.ttf
