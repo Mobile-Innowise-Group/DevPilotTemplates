@@ -16,6 +16,8 @@ dependencies:
     path: ../domain
 
   json_annotation: ^4.9.0
+  web_socket_channel: ^3.0.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

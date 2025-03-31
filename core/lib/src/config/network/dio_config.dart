@@ -12,7 +12,7 @@ class DioConfig {
 
   DioConfig({required this.appConfig}) {
     _dio
-      ..options.baseUrl = appConfig.baseUrl
+      ..options.baseUrl = appConfig.httpBaseUrl
       ..interceptors.addAll(
         <Interceptor>[
           const AppLogInterceptor(),
