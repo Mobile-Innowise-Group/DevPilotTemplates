@@ -5,12 +5,12 @@ import '../../data.dart';
 
 final class DataDI {
   static Future<void> initDependencies(GetIt locator) async {
-    await _initApi(locator);
+    await _initSharedProviders(locator);
     _initProviders(locator);
     _initRepositories(locator);
   }
 
-  static Future<void> _initApi(GetIt locator) async {
+  static Future<void> _initSharedProviders(GetIt locator) async {
     locator.registerLazySingleton<DioConfig>(
       () => DioConfig(
         appConfig: locator<AppConfig>(),
