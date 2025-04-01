@@ -23,9 +23,10 @@ final class DataDI {
       ),
     );
 
-    final SharedPreferences instance = await SharedPreferences.getInstance();
-    locator.registerSingleton<LocalDataProvider>(
-      LocalDataProvider(prefs: instance),
+    locator.registerSingletonAsync<LocalDataProvider>(
+      () async => LocalDataProvider(
+        prefs: await SharedPreferences.getInstance(),
+      ),
     );
 
     locator.registerLazySingleton<ApiProvider>(

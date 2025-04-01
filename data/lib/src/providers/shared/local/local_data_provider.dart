@@ -19,14 +19,47 @@ class LocalDataProvider {
     await _prefs.clear();
   }
 
-  Future<String?> read(String key) async {
+  Future<String?> readString(String key) async {
     return _prefs.getString(key);
   }
 
-  Future<void> write({
+  Future<void> writeString({
     required String key,
     required String value,
   }) async {
     await _prefs.setString(key, value);
+  }
+
+  Future<int?> readInt(String key) async {
+    return _prefs.getInt(key);
+  }
+
+  Future<void> writeInt({
+    required String key,
+    required int value,
+  }) async {
+    await _prefs.setInt(key, value);
+  }
+
+  Future<double?> readDouble(String key) async {
+    return _prefs.getDouble(key);
+  }
+
+  Future<void> writeDouble({
+    required String key,
+    required double value,
+  }) async {
+    await _prefs.setDouble(key, value);
+  }
+
+  Future<bool?> readBool(String key) async {
+    return _prefs.getBool(key);
+  }
+
+  Future<void> writeBool({
+    required String key,
+    required bool value,
+  }) async {
+    await _prefs.setBool(key, value);
   }
 }
