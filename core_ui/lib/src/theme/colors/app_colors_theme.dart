@@ -1,5 +1,6 @@
-import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core_ui.dart';
 
 abstract class AppColorsTheme extends ThemeExtension<AppColorsTheme> {
   const AppColorsTheme();
