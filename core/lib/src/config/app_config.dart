@@ -4,29 +4,30 @@ enum Flavor {
 
 class AppConfig {
   final Flavor flavor;
-  final String baseUrl;
-  final String webSocketUrl;
+  final String httpBaseUrl;
+  final String webSocketBaseUrl;
 
   AppConfig({
     required this.flavor,
-    required this.baseUrl,
-    required this.webSocketUrl,
+    required this.httpBaseUrl,
+    required this.webSocketBaseUrl,
   });
 
   factory AppConfig.fromFlavor(Flavor flavor) {
-    String baseUrl;
-    String webSocketUrl;
+    String httpBaseUrl;
+    String webSocketBaseUrl;
+
     switch (flavor) {
       case Flavor.dev:
-        baseUrl = '';
-        webSocketUrl = '';
+        httpBaseUrl = '';
+        webSocketBaseUrl = '';
         break;
     }
 
     return AppConfig(
       flavor: flavor,
-      baseUrl: baseUrl,
-      webSocketUrl: webSocketUrl,
+      httpBaseUrl: httpBaseUrl,
+      webSocketBaseUrl: webSocketBaseUrl,
     );
   }
 }
