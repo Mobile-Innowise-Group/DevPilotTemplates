@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "TEST"
+
 if [ -z "$1" ]; then
     echo "Error: Specify path to a project root"
     exit 1
