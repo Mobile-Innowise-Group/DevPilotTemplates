@@ -5,42 +5,44 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-projectPath="$1"
+projectRoot="$1"
 
-if [ ! -f "$projectPath/pubspec.yaml" ]; then
+if [ ! -f "$projectRoot/pubspec.yaml" ]; then
     echo "Error: pubspec.yaml not found in project root!"
     exit 1
 fi
 
-sourceDir="files/src"
-destinationPath="$projectPath/data/lib/src/providers/shared/remote"
+targetSrcDir="$projectRoot/data/lib/src"
 
-if [ ! -d "$sourceDir" ]; then
-    echo "Error: Source directory '$sourceDir' not found!"
-    exit 1
-fi
+fromFilesDir="files/src"
+toFilesDir="$targetSrcDir/providers/shared/remote"
+cp -r "$fromFilesDir"/* "$toFilesDir"
 
-mkdir -p "$destinationPath"
-cp -r "$sourceDir"/* "$destinationPath" && echo "Files copied to $destinationPath"
+fromExportFile="files/export.dart"
+toExportFile="$targetSrcDir/providers/shared/shared.dart"
+sh "../shared_scripts/append_file_and_sort.sh" --from "$fromExportFile" --to "$toExportFile"
 
-exportFileSource="files/export.dart"
-exportFileDestination="$projectPath/data/lib/src/providers/shared/shared.dart"
+toDIFile="$targetSrcDir/di/data_di.dart"
+read -d '' diCode << EOF
+locator.registerLazySingleton<DioConfig>(
+  () => DioConfig(
+    appConfig: locator<AppConfig>(),
+  ),
+);
 
-if [ -f "$exportFileSource" ]; then
-    cat "$exportFileSource" >> "$exportFileDestination"
-    dart format "$exportFileDestination" > /dev/null 2>&1
-    echo "Added exports to $exportFileDestination"
-fi
+locator.registerLazySingleton<ErrorHandler>(
+  () => ErrorHandler(
+    eventNotifier: locator<AppEventNotifier>(),
+  ),
+);
 
-diFilePath = "$projectPath/data/lib/src/di/data_di.dart";
-diRegistrationCode = "
-    locator.registerLazySingleton<ApiProvider>(
-      () => ApiProvider(
-        dio: locator<DioConfig>().dio,
-        errorHandler: locator<ErrorHandler>(),
-        listResultField: ApiConstants.listResponseField,
-      ),
-    );"
+locator.registerLazySingleton<ApiProvider>(
+  () => ApiProvider(
+    dio: locator<DioConfig>().dio,
+    errorHandler: locator<ErrorHandler>(),
+    listResultField: ApiConstants.listResponseField,
+  ),
+);
+EOF
 
-cd "../shared_scripts"
-sh append_di.sh --file "$diFilePath" --method "_initSharedProviders" --code "$diRegistrationCode"
+sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSharedProviders" --code "$diCode"
