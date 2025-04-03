@@ -46,3 +46,4 @@ locator.registerLazySingleton<ApiProvider>(
 EOF
 
 sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSharedProviders" --code "$diCode"
+

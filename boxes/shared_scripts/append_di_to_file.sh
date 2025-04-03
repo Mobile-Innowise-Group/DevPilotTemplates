@@ -69,3 +69,4 @@ awk -v method="$METHOD_NAME" -v dep="$NEW_DEP" '
 dart format "$FILE" > /dev/null 2>&1
 
 echo "Code inserted successfully into $METHOD_NAME in $FILE!"
+

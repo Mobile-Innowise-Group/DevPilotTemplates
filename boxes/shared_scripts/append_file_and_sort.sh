@@ -34,3 +34,4 @@ fi
 cat "$from" >> "$to"
 sort -o "$to" "$to"
 echo "Content from '$from' has been successfully appended to '$to' and sorted alphabetically."
+
