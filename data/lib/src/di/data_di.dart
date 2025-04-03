@@ -29,14 +29,6 @@ final class DataDI {
       ),
     );
 
-    locator.registerLazySingleton<ApiProvider>(
-      () => ApiProvider(
-        dio: locator<DioConfig>().dio,
-        errorHandler: locator<ErrorHandler>(),
-        listResultField: ApiConstants.listResponseField,
-      ),
-    );
-
     locator.registerLazySingleton<WebSocketApiProvider>(
       () => WebSocketApiProvider(
         baseUrl: locator<AppConfig>().webSocketBaseUrl,
