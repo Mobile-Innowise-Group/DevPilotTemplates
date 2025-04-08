@@ -30,7 +30,7 @@ sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSh
 toConstantsFile="$targetSrcDir/constants/storage_constants.dart"
 read -d '' constantsCode << EOF
   static const String appDatabaseName = 'appDatabase';
-  static const String appDatabaseVersion = 1;
+  static const int appDatabaseVersion = 1;
 EOF
 
 sh "../shared_scripts/append_members_to_file.sh" --file "$toConstantsFile" --code "$constantsCode" --newBlock
