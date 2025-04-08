@@ -27,6 +27,6 @@ diCode="locator.registerLazySingleton<AppDatabase>(AppDatabase.new);"
 
 sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSharedProviders" --code "$diCode"
 
-cd "$projectPath/data"
+cd "$projectRoot/data"
 dart pub add drift_flutter:^0.2.4
 dart pub add drift_dev:^2.23.1 --dev
