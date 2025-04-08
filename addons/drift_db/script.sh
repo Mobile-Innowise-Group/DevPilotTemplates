@@ -27,6 +27,14 @@ diCode="locator.registerLazySingleton<AppDatabase>(AppDatabase.new);"
 
 sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSharedProviders" --code "$diCode"
 
+toConstantsFile="$targetSrcDir/constants/storage_constants.dart"
+read -d '' constantsCode << EOF
+  static const String appDatabaseName = 'appDatabase';
+  static const String appDatabaseVersion = 1;
+EOF
+
+sh "../shared_scripts/append_members_to_file.sh" --file "$toConstantsFile" --code "$constantsCode" --newBlock
+
 cd "$projectRoot/data"
 dart pub add drift_flutter:^0.2.4
 dart pub add drift_dev:^2.23.1 --dev
