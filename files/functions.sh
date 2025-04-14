@@ -1,3 +1,7 @@
+export HASH_1="hash1.prebuildhash"
+export HASH_2="hash2.prebuildhash"
+export MODULE_PREBUILD="module_prebuild.sh"
+
 readonly HASH_1="hash1.prebuildhash"
 readonly HASH_2="hash2.prebuildhash"
 readonly MODULE_PREBUILD="module_prebuild.sh"
@@ -35,33 +39,15 @@ __build_file_hashes() {
         return 1
     fi
 
-    if [ ! -f "$output_file" ]; then
-        touch "$output_file"
-        if [ $? -ne 0 ]; then
-            echo "Error: Unable to create output file '$output_file'" >&2
-            return 1
-        fi
+    local hash
+    hash=$(find "$directory" -type f -exec sha256sum {} \; | sort | sha256sum | awk '{ print $1 }')
+
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to calculate directory hash for '$directory'" >&2
+        return 1
     fi
 
-    truncate -s 0 "$output_file"
-
-    find "$directory" -type f | while read -r file; do
-        if [ ! -r "$file" ]; then
-            echo "Error: Unable to read file '$file'" >&2
-            continue
-        fi
-
-        file_hash=$(__calculate_hash "$file")
-
-        if [ $? -ne 0 ]; then
-            echo "Error: Failed to calculate hash for '$file'" >&2
-            continue
-        fi
-
-        echo "$file $file_hash" >> "$output_file"
-    done
-
-    sort -o "$output_file" "$output_file"
+    echo "$hash" > "$output_file"
 }
 
 __check_for_mismatches() {
