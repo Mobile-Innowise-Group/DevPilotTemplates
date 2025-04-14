@@ -1,5 +1,5 @@
-readonly HASH_1="hash1"
-readonly HASH_2="hash2"
+readonly HASH_1="hash1.prebuildhash"
+readonly HASH_2="hash2.prebuildhash"
 
 __calculate_hash() {
     local file_path="$1"
@@ -115,11 +115,11 @@ run_prebuild_if_needed() {
 
     if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
       sh prebuild.sh
+      __build_file_hashes -d lib -o "$HASH_2"
+      cp "$HASH_2" "$HASH_1"
     else
       echo "Skipping $dir prebuild.sh"
     fi
-
-    cp "$HASH_2" "$HASH_1"
   )
 }
 
