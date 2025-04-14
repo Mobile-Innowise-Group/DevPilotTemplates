@@ -109,18 +109,22 @@ run_prebuild_if_needed() {
     cd "$dir" || exit
 
     [ ! -f "$HASH_1" ] && touch "$HASH_1"
-    [ ! -f "$HASH_2" ] && touch "$HASH_2"
 
-    cp "$HASH_2" "$HASH_1"
+    if [ -f "$HASH_2" ]; then
+      cp "$HASH_2" "$HASH_1"
+    else
+      touch "$HASH_2"
+    fi
+
     __build_file_hashes -d lib -o "$HASH_2"
 
     if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
-      echo "\x1B[36m=======> 🛠 Running $dir $MODULE_PREBUILD \x1B[0m"
+      echo "\x1B[36m🔵Running $dir $MODULE_PREBUILD \x1B[0m"
       sh "$MODULE_PREBUILD"
       __build_file_hashes -d lib -o "$HASH_2"
       cp "$HASH_2" "$HASH_1"
     else
-      echo "\x1B[32m=======> ✅ Skipping $dir $MODULE_PREBUILD \x1B[0m"
+      echo "\x1B[32m🟢Skipping $dir $MODULE_PREBUILD \x1B[0m"
     fi
   )
 }
