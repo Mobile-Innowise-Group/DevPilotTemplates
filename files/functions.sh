@@ -114,11 +114,12 @@ run_prebuild_if_needed() {
     __build_file_hashes -d lib -o "$HASH_2"
 
     if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
+      echo "\x1B[36m 🛠 Running $dir prebuild.sh \x1B[0m"
       sh prebuild.sh
       __build_file_hashes -d lib -o "$HASH_2"
       cp "$HASH_2" "$HASH_1"
     else
-      echo "Skipping $dir prebuild.sh"
+      echo "\x1B[32m ✅ Skipping $dir prebuild.sh \x1B[0m"
     fi
   )
 }
