@@ -91,13 +91,12 @@ __check_for_mismatches() {
         return 1
     fi
 
-    while IFS=' ' read -r new_path new_hash; do
-        old_hash=$(grep "^$new_path " "$old_file" | awk '{print $2}')
+    new_hash=$(sha256sum "$new_file" | awk '{print $1}')
+    old_hash=$(sha256sum "$old_file" | awk '{print $1}')
 
-        if [ -z "$old_hash" ] || [ "$old_hash" != "$new_hash" ]; then
-            return 0
-        fi
-    done < "$new_file"
+    if [ "$new_hash" != "$old_hash" ]; then
+        return 0
+    fi
 
     return 1
 }
