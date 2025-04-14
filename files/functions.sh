@@ -104,19 +104,22 @@ __check_for_mismatches() {
 run_prebuild_if_needed() {
   local dir="$1"
 
-  cd "$dir" || exit
+  (
+    cd "$dir" || exit
 
-  [ ! -f "$HASH_1" ] && touch "$HASH_1"
-  [ ! -f "$HASH_2" ] && touch "$HASH_2"
+    [ ! -f "$HASH_1" ] && touch "$HASH_1"
+    [ ! -f "$HASH_2" ] && touch "$HASH_2"
 
-  cp "$HASH_2" "$HASH_1"
-  __build_file_hashes -d lib -o "$HASH_2"
+    cp "$HASH_2" "$HASH_1"
+    __build_file_hashes -d lib -o "$HASH_2"
 
-  if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
-    sh prebuild.sh
-  else
-    echo "Skipping $dir prebuild.sh"
-  fi
+    if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
+      sh prebuild.sh
+    else
+      echo "Skipping $dir prebuild.sh"
+    fi
 
-  cp "$HASH_2" "$HASH_1"
+    cp "$HASH_2" "$HASH_1"
+  )
 }
+
