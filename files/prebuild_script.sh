@@ -8,7 +8,7 @@ run_prebuild_if_needed data
 run_prebuild_if_needed domain
 
 if [ -d 'features' ]; then
-  for dir in ./features/*; do
+  for dir in features/*; do
     if [ -d "$dir" ]; then
       run_prebuild_if_needed "$dir"
     fi
