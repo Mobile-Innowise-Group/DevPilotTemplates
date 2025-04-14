@@ -1,5 +1,6 @@
 readonly HASH_1="hash1.prebuildhash"
 readonly HASH_2="hash2.prebuildhash"
+readonly MODULE_PREBUILD="module_prebuild.sh"
 
 __calculate_hash() {
     local file_path="$1"
@@ -114,12 +115,12 @@ run_prebuild_if_needed() {
     __build_file_hashes -d lib -o "$HASH_2"
 
     if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
-      echo "\x1B[36m 🛠 Running $dir prebuild.sh \x1B[0m"
-      sh prebuild.sh
+      echo "\x1B[36m=======> 🛠 Running $dir $MODULE_PREBUILD \x1B[0m"
+      sh "$MODULE_PREBUILD"
       __build_file_hashes -d lib -o "$HASH_2"
       cp "$HASH_2" "$HASH_1"
     else
-      echo "\x1B[32m ✅ Skipping $dir prebuild.sh \x1B[0m"
+      echo "\x1B[32m=======> ✅ Skipping $dir $MODULE_PREBUILD \x1B[0m"
     fi
   )
 }
