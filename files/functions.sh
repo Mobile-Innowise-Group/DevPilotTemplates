@@ -18,11 +18,11 @@ __build_file_hashes() {
     local directory=""
     local output_file=""
 
-    while getopts "d:o:" opt; do
-        case "$opt" in
-            d) directory="$OPTARG" ;;
-            o) output_file="$OPTARG" ;;
-            *) __print_usage ;;
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -d) directory="$2"; shift 2 ;;
+            -o) output_file="$2"; shift 2 ;;
+            *) echo "Unknown option: $1"; __print_usage; return 1 ;;
         esac
     done
 
@@ -119,12 +119,12 @@ run_prebuild_if_needed() {
     __build_file_hashes -d lib -o "$HASH_2"
 
     if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
-      echo -e "\x1B[36m🔵Running $dir $MODULE_PREBUILD \x1B[0m"
+      echo -e "\x1B[32m🟢Running $dir $MODULE_PREBUILD \x1B[0m"
       sh "$MODULE_PREBUILD"
       __build_file_hashes -d lib -o "$HASH_2"
       cp "$HASH_2" "$HASH_1"
     else
-      echo -e "\x1B[32m🟢Skipping $dir $MODULE_PREBUILD \x1B[0m"
+      echo -e "\x1B[36m🔵Skipping $dir $MODULE_PREBUILD \x1B[0m"
     fi
   )
 }
