@@ -2,6 +2,21 @@
 
 source functions.sh
 
+FORCE_PREBUILD=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --force)
+      FORCE_PREBUILD=true
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
 run_prebuild_if_needed core
 run_prebuild_if_needed core_ui
 run_prebuild_if_needed data

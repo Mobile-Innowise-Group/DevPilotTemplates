@@ -88,7 +88,25 @@ __check_for_mismatches() {
 }
 
 run_prebuild_if_needed() {
-  local dir="$1"
+  local force_run=""
+  local dir=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --force)
+        force_run=true
+        shift
+        ;;
+      *)
+        dir="$1"
+        shift
+        ;;
+    esac
+  done
+
+  if [[ -z "$force_run" ]]; then
+    force_run="${FORCE_PREBUILD:-false}"
+  fi
 
   (
     cd "$dir" || exit
@@ -103,7 +121,7 @@ run_prebuild_if_needed() {
 
     __build_file_hashes -d lib -o "$HASH_2"
 
-    if __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
+    if $force_run || __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
       echo -e "\x1B[32m🟢Running $dir $MODULE_PREBUILD \x1B[0m"
       sh "$MODULE_PREBUILD"
       __build_file_hashes -d lib -o "$HASH_2"
@@ -113,4 +131,3 @@ run_prebuild_if_needed() {
     fi
   )
 }
-
