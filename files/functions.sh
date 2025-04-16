@@ -1,10 +1,14 @@
+#!/bin/bash
+
 export HASH_1="hash1.prebuildhash"
 export HASH_2="hash2.prebuildhash"
 export MODULE_PREBUILD="module_prebuild.sh"
+export PREBUILD_DIR=".prebuild"
 
 readonly HASH_1="hash1.prebuildhash"
 readonly HASH_2="hash2.prebuildhash"
 readonly MODULE_PREBUILD="module_prebuild.sh"
+readonly PREBUILD_DIR=".prebuild"
 
 __calculate_hash() {
     local file_path="$1"
@@ -89,12 +93,17 @@ __check_for_mismatches() {
 
 run_prebuild_if_needed() {
   local force_run=""
+  local compact_output=""
   local dir=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --force)
         force_run=true
+        shift
+        ;;
+      --compact)
+        compact_output=true
         shift
         ;;
       *)
@@ -104,12 +113,11 @@ run_prebuild_if_needed() {
     esac
   done
 
-  if [[ -z "$force_run" ]]; then
-    force_run="${FORCE_PREBUILD:-false}"
-  fi
+  [[ -z "$force_run" ]] && force_run="${FORCE_PREBUILD:-false}"
+  [[ -z "$compact_output" ]] && compact_output="${COMPACT_PREBUILD:-false}"
 
   (
-    cd "$dir" || exit
+    cd "$dir/$PREBUILD_DIR" || exit
 
     [ ! -f "$HASH_1" ] && touch "$HASH_1"
 
@@ -119,12 +127,20 @@ run_prebuild_if_needed() {
       touch "$HASH_2"
     fi
 
-    __build_file_hashes -d lib -o "$HASH_2"
+    __build_file_hashes -d ../lib -o "$HASH_2"
 
     if $force_run || __check_for_mismatches -o "$HASH_1" -n "$HASH_2"; then
       echo -e "\x1B[32m🟢Running $dir $MODULE_PREBUILD \x1B[0m"
-      sh "$MODULE_PREBUILD"
-      __build_file_hashes -d lib -o "$HASH_2"
+      cd ../
+
+      if $compact_output; then
+        sh "$PREBUILD_DIR/$MODULE_PREBUILD" > /dev/null
+      else
+        sh "$PREBUILD_DIR/$MODULE_PREBUILD"
+      fi
+
+      cd "$PREBUILD_DIR"
+      __build_file_hashes -d ../lib -o "$HASH_2"
       cp "$HASH_2" "$HASH_1"
     else
       echo -e "\x1B[36m🔵Skipping $dir $MODULE_PREBUILD \x1B[0m"

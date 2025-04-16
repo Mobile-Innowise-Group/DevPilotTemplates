@@ -3,11 +3,16 @@
 source functions.sh
 
 FORCE_PREBUILD=false
+COMPACT_PREBUILD=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --force)
       FORCE_PREBUILD=true
+      shift
+      ;;
+    --compact)
+      COMPACT_PREBUILD=true
       shift
       ;;
     *)
@@ -18,6 +23,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 export FORCE_PREBUILD
+export COMPACT_PREBUILD
 export -f run_prebuild_if_needed
 export -f __build_file_hashes
 export -f __check_for_mismatches
