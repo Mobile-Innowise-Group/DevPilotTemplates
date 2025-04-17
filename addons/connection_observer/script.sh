@@ -1,36 +1,24 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "Error: Specify path to a project root"
-    exit 1
-fi
+set -e
 
-projectPath="$1"
+source "../shared/functions.sh"
 
-if [ ! -f "$projectPath/pubspec.yaml" ]; then
-    echo "Error: pubspec.yaml not found in project root!"
-    exit 1
-fi
+projectRoot="$1"
+ensure_valid_project_root "$projectRoot"
 
-sourceDir="files/src"
-destinationPath="$projectPath/core/lib/src/services"
+targetSrcDir="$projectRoot/core/lib/src"
 
-if [ ! -d "$sourceDir" ]; then
-    echo "Error: Source directory '$sourceDir' not found!"
-    exit 1
-fi
+copy_source_files \
+  from="files/src" \
+  to="$targetSrcDir/services"
 
-mkdir -p "$destinationPath"
-cp -r "$sourceDir"/* "$destinationPath" && echo "Files copied to $destinationPath"
+append_exports \
+  from="files/export.dart" \
+  to="$targetSrcDir/services/services.dart"
 
-exportFileSource="files/export.dart"
-exportFileDestination="$destinationPath/services.dart"
+add_dependency \
+  project_dir="$projectRoot/core" \
+  dependency="observe_internet_connectivity"
 
-if [ -f "$exportFileSource" ]; then
-    cat "$exportFileSource" >> "$exportFileDestination"
-    dart format "$exportFileDestination" > /dev/null 2>&1
-    echo "Added exports to $exportFileDestination"
-fi
-
-cd "$projectPath/core"
-dart pub add observe_internet_connectivity
+printf "Successfully added connectivity observer to the project"

@@ -1,49 +1,25 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "Error: Specify path to a project root"
-    exit 1
-fi
+set -e
+
+source "../shared/functions.sh"
 
 projectRoot="$1"
-
-if [ ! -f "$projectRoot/pubspec.yaml" ]; then
-    echo "Error: pubspec.yaml not found in project root!"
-    exit 1
-fi
+ensure_valid_project_root "$projectRoot"
 
 targetSrcDir="$projectRoot/data/lib/src"
 
-fromFilesDir="files/src"
-toFilesDir="$targetSrcDir/providers/shared/remote"
-cp -r "$fromFilesDir"/* "$toFilesDir"
+copy_source_files \
+  from="files/src" \
+  to="$targetSrcDir/providers/shared/remote"
 
-fromExportFile="files/export.dart"
-toExportFile="$targetSrcDir/providers/shared/shared.dart"
-sh "../shared_scripts/append_file_and_sort.sh" --from "$fromExportFile" --to "$toExportFile"
+append_exports \
+  from="files/export.dart" \
+  to="$targetSrcDir/providers/shared/shared.dart"
 
-toDIFile="$targetSrcDir/di/data_di.dart"
-read -d '' diCode << EOF
-locator.registerLazySingleton<DioConfig>(
-  () => DioConfig(
-    appConfig: locator<AppConfig>(),
-  ),
-);
+insert_code_into_method \
+  file="$targetSrcDir/di/data_di.dart" \
+  method="_initSharedProviders" \
+  code="$(<files/di_code.dart)"
 
-locator.registerLazySingleton<ErrorHandler>(
-  () => ErrorHandler(
-    eventNotifier: locator<AppEventNotifier>(),
-  ),
-);
-
-locator.registerLazySingleton<ApiProvider>(
-  () => ApiProvider(
-    dio: locator<DioConfig>().dio,
-    errorHandler: locator<ErrorHandler>(),
-    listResultField: ApiConstants.listResponseField,
-  ),
-);
-EOF
-
-sh "../shared_scripts/append_di_to_file.sh" --file "$toDIFile" --method "_initSharedProviders" --code "$diCode"
-
+printf "Successfully added HTTP provider to the project"
