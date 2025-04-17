@@ -19,7 +19,6 @@ function module_flow() {
 
   function on_error() {
     local exit_code=$?
-    local line_no=$1
     echo_styled "🔴Error while processing $(pwd)" "$COLOR_RED"
     [[ -n "${abs_hash:-}" && -f "$abs_hash" ]] && rm -f "$abs_hash"
     exit $exit_code
