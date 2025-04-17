@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+function print_usage() {
   cat <<EOF
 Usage: $(basename "$0") [options]
 
@@ -21,8 +21,11 @@ Description:
     - features (each subdirectory)
     - navigation
     - root project directory
-
 EOF
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  print_usage
   exit 0
 fi
 
@@ -41,7 +44,11 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -f|--force) FORCE=true; shift ;;
     -v|--verbose) VERBOSE=true; shift ;;
-    *) echo "Unknown option: $1"; exit 1 ;;
+    *)
+      echo "Unknown option: $1"
+      print_usage
+      exit 1
+      ;;
   esac
 done
 
