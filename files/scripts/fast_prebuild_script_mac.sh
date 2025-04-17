@@ -1,5 +1,31 @@
 #!/bin/bash
 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+  -f, --force       Force run the module_prebuild.sh regardless of file changes.
+  -v, --verbose     Enable verbose output (prints prebuild script output).
+  -h, --help        Show this help message and exit.
+
+Description:
+  This script walks through the project and runs a prebuild script (./.prebuild/module_prebuild.sh)
+  inside each module, only if the contents have changed (based on file hash comparison) — unless forced via -f.
+
+  Modules processed:
+    - core
+    - core_ui
+    - data
+    - domain
+    - features (each subdirectory)
+    - navigation
+    - root project directory
+
+EOF
+  exit 0
+fi
+
 source functions.sh
 
 export -f echo_styled
