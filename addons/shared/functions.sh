@@ -34,7 +34,7 @@ append_exports() {
     fi
 
     cat "$from" >> "$to"
-    dart format "$to" > /dev/null
+    sort "$to" -o "$to"
 }
 
 # ===============================
