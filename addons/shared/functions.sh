@@ -217,3 +217,68 @@ add_dependency() {
       fi
     )
 }
+
+##
+# @function inject_member
+# @brief Injects code before the last closing brace (`}`) of a file.
+#
+# @param --file <path>       Target file to inject code into.
+# @param --code "<code>"     Code to inject (quoted).
+# @param --newBlock          Optional. If set, inserts a blank line before the code block.
+#
+# @example
+#   inject_member --file main.dart --code "print('Hello');" --newBlock
+##
+inject_member() {
+  local newBlock=false
+  local file=""
+  local code=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --file)
+        file="$2"
+        shift 2
+        ;;
+      --code)
+        code="$2"
+        shift 2
+        ;;
+      --newBlock)
+        newBlock=true
+        shift
+        ;;
+      *)
+        echo "Unknown option: $1"
+        return 1
+        ;;
+    esac
+  done
+
+  if [[ -z "$file" || -z "$code" ]]; then
+    echo "Missing --file or --code"
+    return 1
+  fi
+
+  if [[ ! -f "$file" ]]; then
+    echo "File not found: $file"
+    return 1
+  fi
+
+  local lastLineNum=$(grep -n '}' "$file" | tail -n1 | cut -d: -f1)
+  local lastLine=$(sed "${lastLineNum}q;d" "$file")
+
+  if [[ "$lastLine" =~ \{[^\}]*\} ]]; then
+    local newLine="${lastLine%\}} $code }"
+    sed "${lastLineNum}s/.*/$newLine/" "$file" > "$file.tmp"
+  else
+    sed "$((lastLineNum-1))q" "$file" > "$file.tmp"
+    if [[ "$newBlock" == true ]]; then
+      echo "" >> "$file.tmp"
+    fi
+    echo "  $code" >> "$file.tmp"
+    tail -n +"$lastLineNum" "$file" >> "$file.tmp"
+  fi
+
+  mv "$file.tmp" "$file"
+}
