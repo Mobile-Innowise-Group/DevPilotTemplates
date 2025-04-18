@@ -220,25 +220,18 @@ add_dependency() {
 
 ##
 # @function inject_member
-# @brief Injects code before the last closing brace (`}`) of a file.
+# @brief Injects Dart member code before the last closing brace in a file.
 #
-# @param --file <path>       Target file to inject code into.
-# @param --code "<code>"     Code to inject (quoted).
-# @param --newBlock          Optional. If set, inserts a blank line before the code block.
-#
-# @example
-#   inject_member --file main.dart --code "print('Hello');" --newBlock
-##
-##
-# @function inject_member
-# @brief Injects a code snippet before the last closing brace (`}`) of a file.
-#
-# @param file="<path>"         Path to the target file.
-# @param code="<code>"         Code to inject (quoted).
-# @flag  --newBlock            Optional. Adds a blank line before injected code.
+# @param file="<filename>"       Path to the target Dart file.
+# @param code="<code string>"    Code to inject (supports multi-line).
+# @flag  --newBlock              Optional: adds a blank line before the new code.
 #
 # @example
-#   inject_member file="lib/consts.dart" code="static const int a = 1;" --newBlock
+#   read -d '' constantsCode << EOF
+#     static const a = 1;
+#     static const b = 2;
+#   EOF
+#   inject_member file="lib/consts.dart" code="$constantsCode" --newBlock
 ##
 inject_member() {
   local file=""
@@ -250,37 +243,42 @@ inject_member() {
       file=*) file="${arg#*=}" ;;
       code=*) code="${arg#*=}" ;;
       --newBlock) newBlock=true ;;
-      *) echo "Unknown option: $arg" && return 1 ;;
+      *) echo "Unknown option: $arg" >&2; return 1 ;;
     esac
   done
 
   if [[ -z "$file" || -z "$code" ]]; then
-    echo "Error: file and code are required."
+    echo "Missing file= or code=" >&2
     return 1
   fi
 
   if [[ ! -f "$file" ]]; then
-    echo "File not found: $file"
+    echo "File not found: $file" >&2
     return 1
   fi
 
   local lastLineNum
   lastLineNum=$(grep -n '}' "$file" | tail -n1 | cut -d: -f1)
 
-  local lastLine
-  lastLine=$(sed "${lastLineNum}q;d" "$file")
-
-  if [[ "$lastLine" =~ \{[^\}]*\} ]]; then
-    local newLine="${lastLine%\}} $code }"
-    sed "${lastLineNum}s/.*/$newLine/" "$file" > "$file.tmp"
-  else
-    sed "$((lastLineNum-1))q" "$file" > "$file.tmp"
-    if [[ "$newBlock" == true ]]; then
-      echo "" >> "$file.tmp"
+  local i=1
+  while IFS= read -r line; do
+    if [[ "$i" -eq "$lastLineNum" ]]; then
+      # Handle inline case: class A { ... }
+      if [[ "$line" =~ \{[^\}]*\} ]]; then
+        local newLine="${line%\}} $code }"
+        echo "$newLine"
+      else
+        if [[ "$newBlock" == true ]]; then
+          echo ""
+        fi
+        printf "%s\n" "$code"
+        echo "$line"
+      fi
+    else
+      echo "$line"
     fi
-    echo "  $code" >> "$file.tmp"
-    tail -n +"$lastLineNum" "$file" >> "$file.tmp"
-  fi
+    ((i++))
+  done < "$file" > "${file}.injected"
 
-  mv "$file.tmp" "$file"
+  mv "${file}.injected" "$file"
 }
