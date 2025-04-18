@@ -1,1 +1,1 @@
-locator.registerLazySingleton(AppDatabase.new);
+locator.registerLazySingleton<AppDatabase>(AppDatabase.new);

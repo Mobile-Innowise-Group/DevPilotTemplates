@@ -227,10 +227,11 @@ add_dependency() {
 # @flag  --newBlock              Optional: adds a blank line before the new code.
 #
 # @example
-#   read -d '' constantsCode << EOF
-#     static const a = 1;
-#     static const b = 2;
+#    constantsCode=$(cat <<EOF
+#     static const String appDatabaseName = 'appDatabase';
+#     static const int appDatabaseVersion = 1;
 #   EOF
+#   )
 #   inject_member file="lib/consts.dart" code="$constantsCode" --newBlock
 ##
 inject_member() {

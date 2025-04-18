@@ -22,10 +22,11 @@ insert_code_into_method \
   method="_initSharedProviders" \
   code="$(<files/di_code.dart)"
 
-read -d '' constantsCode << EOF
+constantsCode=$(cat <<EOF
   static const String appDatabaseName = 'appDatabase';
   static const int appDatabaseVersion = 1;
 EOF
+)
 
 inject_member \
   file="$targetSrcDir/constants/storage_constants.dart" \
