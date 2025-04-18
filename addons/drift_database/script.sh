@@ -28,6 +28,7 @@ add_dependency \
 
 add_dependency \
   project_dir="$projectRoot/data" \
-  dependency="drift_dev:^2.23.1 --dev"
+  dependency="drift_dev:^2.23.1" \
+  --dev
 
 printf "Successfully added drift database to the project"

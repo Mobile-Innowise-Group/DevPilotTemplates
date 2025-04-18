@@ -187,16 +187,18 @@ ensure_valid_project_root() {
 
 # ===============================
 # Add a Dart dependency to a project
-# Usage: add_dependency project_dir=<project_dir> dependency=<dependency>
+# Usage: add_dependency project_dir=<project_dir> dependency=<dependency> [--dev]
 # ===============================
 add_dependency() {
     local project_dir=""
     local dependency=""
+    local is_dev=false
 
     for arg in "$@"; do
         case $arg in
             project_dir=*) project_dir="${arg#*=}" ;;
             dependency=*) dependency="${arg#*=}" ;;
+            --dev) is_dev=true ;;
             *) echo "Unknown argument: $arg" && return 1 ;;
         esac
     done
@@ -208,6 +210,10 @@ add_dependency() {
 
     (
       cd "$project_dir" || exit
-      dart pub add "$dependency"  > /dev/null
+      if $is_dev; then
+        dart pub add --dev "$dependency" > /dev/null
+      else
+        dart pub add "$dependency" > /dev/null
+      fi
     )
 }
