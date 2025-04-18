@@ -229,34 +229,33 @@ add_dependency() {
 # @example
 #   inject_member --file main.dart --code "print('Hello');" --newBlock
 ##
+##
+# @function inject_member
+# @brief Injects a code snippet before the last closing brace (`}`) of a file.
+#
+# @param file="<path>"         Path to the target file.
+# @param code="<code>"         Code to inject (quoted).
+# @flag  --newBlock            Optional. Adds a blank line before injected code.
+#
+# @example
+#   inject_member file="lib/consts.dart" code="static const int a = 1;" --newBlock
+##
 inject_member() {
-  local newBlock=false
   local file=""
   local code=""
+  local newBlock=false
 
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --file)
-        file="$2"
-        shift 2
-        ;;
-      --code)
-        code="$2"
-        shift 2
-        ;;
-      --newBlock)
-        newBlock=true
-        shift
-        ;;
-      *)
-        echo "Unknown option: $1"
-        return 1
-        ;;
+  for arg in "$@"; do
+    case "$arg" in
+      file=*) file="${arg#*=}" ;;
+      code=*) code="${arg#*=}" ;;
+      --newBlock) newBlock=true ;;
+      *) echo "Unknown option: $arg" && return 1 ;;
     esac
   done
 
   if [[ -z "$file" || -z "$code" ]]; then
-    echo "Missing --file or --code"
+    echo "Error: file and code are required."
     return 1
   fi
 
@@ -265,8 +264,11 @@ inject_member() {
     return 1
   fi
 
-  local lastLineNum=$(grep -n '}' "$file" | tail -n1 | cut -d: -f1)
-  local lastLine=$(sed "${lastLineNum}q;d" "$file")
+  local lastLineNum
+  lastLineNum=$(grep -n '}' "$file" | tail -n1 | cut -d: -f1)
+
+  local lastLine
+  lastLine=$(sed "${lastLineNum}q;d" "$file")
 
   if [[ "$lastLine" =~ \{[^\}]*\} ]]; then
     local newLine="${lastLine%\}} $code }"

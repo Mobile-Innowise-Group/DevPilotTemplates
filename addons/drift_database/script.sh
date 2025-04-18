@@ -22,13 +22,15 @@ insert_code_into_method \
   method="_initSharedProviders" \
   code="$(<files/di_code.dart)"
 
-toConstantsFile="$targetSrcDir/constants/storage_constants.dart"
 read -d '' constantsCode << EOF
   static const String appDatabaseName = 'appDatabase';
   static const int appDatabaseVersion = 1;
 EOF
 
-inject_member --file "$toConstantsFile" --code "$constantsCode" --newBlock
+inject_member \
+  file="$targetSrcDir/constants/storage_constants.dart" \
+  code="$constantsCode" \
+  --newBlock
 
 add_dependency \
   project_dir="$projectRoot/data" \
