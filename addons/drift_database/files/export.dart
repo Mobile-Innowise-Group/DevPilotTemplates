@@ -1,2 +1,2 @@
-export 'local/db/app_database.dart';
-export 'local/db/tables/example_table.dart';
+export 'local/database/app_database.dart';
+export 'local/database/tables/example_table.dart';
