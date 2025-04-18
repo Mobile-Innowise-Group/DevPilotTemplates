@@ -11,35 +11,9 @@ final class DataDI {
   }
 
   static Future<void> _initSharedProviders(GetIt locator) async {
-    locator.registerLazySingleton<DioConfig>(
-      () => DioConfig(
-        appConfig: locator<AppConfig>(),
-      ),
-    );
-
-    locator.registerLazySingleton<ErrorHandler>(
-      () => ErrorHandler(
-        eventNotifier: locator<AppEventNotifier>(),
-      ),
-    );
-
     locator.registerSingletonAsync<LocalDataProvider>(
       () async => LocalDataProvider(
         prefs: await SharedPreferences.getInstance(),
-      ),
-    );
-
-    locator.registerLazySingleton<ApiProvider>(
-      () => ApiProvider(
-        dio: locator<DioConfig>().dio,
-        errorHandler: locator<ErrorHandler>(),
-        listResultField: ApiConstants.listResponseField,
-      ),
-    );
-
-    locator.registerLazySingleton<WebSocketApiProvider>(
-      () => WebSocketApiProvider(
-        baseUrl: locator<AppConfig>().webSocketBaseUrl,
       ),
     );
   }
