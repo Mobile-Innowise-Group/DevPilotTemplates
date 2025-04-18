@@ -16,12 +16,6 @@ final class DataDI {
         prefs: await SharedPreferences.getInstance(),
       ),
     );
-
-    locator.registerLazySingleton<WebSocketApiProvider>(
-      () => WebSocketApiProvider(
-        baseUrl: locator<AppConfig>().webSocketBaseUrl,
-      ),
-    );
   }
 
   static void _initProviders(GetIt locator) {}
